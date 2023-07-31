@@ -7,7 +7,7 @@ defmodule Tapex.Mixfile do
      description: description(),
      elixir: "~> 1.2",
      package: package(),
-     version: "0.1.1"]
+     version: "0.1.2"]
   end
 
   def application do
@@ -27,6 +27,8 @@ defmodule Tapex.Mixfile do
   end
 
   defp deps do
-    [{:ex_doc, "~> 0.14", only: :dev}]
+    [
+      {:ex_doc, "~> 0.14", only: :dev}
+    ]
   end
 end
