@@ -7,8 +7,9 @@ defmodule Tapex.LineTest do
     test = %{
       state: nil,
       case: "MyTest",
-      name: "is awesome",
+      name: "is awesome"
     }
+
     result = format_line(test, 3, false)
     assert result == "ok       3 is awesome (MyTest)"
   end
@@ -29,7 +30,7 @@ defmodule Tapex.LineTest do
       state: nil,
       case: "ATest",
       name: "is unspecific",
-      tags: %{skip: true},
+      tags: %{skip: true}
     }
 
     result = format_line(test, 5, false)
@@ -52,10 +53,12 @@ defmodule Tapex.LineTest do
     test = %{
       state: nil,
       case: "SecretTest",
-      name: "life the universe and everything",
+      name: "life the universe and everything"
     }
 
     result = format_line(test, 42, true)
-    assert result == "\e[32mok    \e[0m  42 \e[32mlife the universe and everything\e[0m (SecretTest)"
+
+    assert result ==
+             "\e[32mok    \e[0m  42 \e[32mlife the universe and everything\e[0m (SecretTest)"
   end
 end

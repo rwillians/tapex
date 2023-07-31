@@ -4,19 +4,16 @@ defmodule TapexTest do
   doctest Tapex
 
   test "init returns config" do
-    capture_io fn ->
+    capture_io(fn ->
       {:ok, config} = Tapex.init(colors: [enabled: false])
-      send self(), config
-    end
-
+      send(self(), config)
+    end)
 
     receive do
-      %{type_counter: type_counter,
-        state_counter: state_counter,
-        test_count: test_count} ->
-          assert type_counter == %{}
-          assert state_counter == %{}
-          assert is_integer(test_count)
+      %{type_counter: type_counter, state_counter: state_counter, test_count: test_count} ->
+        assert type_counter == %{}
+        assert state_counter == %{}
+        assert is_integer(test_count)
     end
   end
 
@@ -35,13 +32,13 @@ defmodule TapexTest do
       test_count: 0
     }
 
-    output = capture_io fn ->
-      {:noreply, _} = Tapex.handle_cast({:test_finished, test}, config)
-    end
+    output =
+      capture_io(fn ->
+        {:noreply, _} = Tapex.handle_cast({:test_finished, test}, config)
+      end)
 
     assert Regex.match?(~r/^ok/, output)
   end
-
 
   test ":case_finished prints TAP line" do
     case = %ExUnit.TestCase{
@@ -56,9 +53,10 @@ defmodule TapexTest do
       test_count: 0
     }
 
-    output = capture_io fn ->
-      {:noreply, _} = Tapex.handle_cast({:case_finished, case}, config)
-    end
+    output =
+      capture_io(fn ->
+        {:noreply, _} = Tapex.handle_cast({:case_finished, case}, config)
+      end)
 
     assert Regex.match?(~r/^not ok/, output)
   end
@@ -75,10 +73,11 @@ defmodule TapexTest do
       tag_counter: %{}
     }
 
-    output = capture_io fn ->
-      time = 500000
-      {:noreply, _} = Tapex.handle_cast({:suite_finished, time, time}, config)
-    end
+    output =
+      capture_io(fn ->
+        time = 500_000
+        {:noreply, _} = Tapex.handle_cast({:suite_finished, time, time}, config)
+      end)
 
     assert String.contains?(output, "1..5\n")
     assert String.contains?(output, "Finished in 1.0 seconds")
