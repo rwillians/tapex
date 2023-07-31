@@ -3,8 +3,8 @@ defmodule Tapex.Diagnostic do
   alias ExUnit.{Test,TestCase}
 
   import ExUnit.Formatter, only: [
-    {:format_test_failure, 5}, 
-    {:format_test_case_failure, 5}
+    {:format_test_failure, 5},
+    {:format_test_all_failure, 5}
   ]
   import Tapex.Tap, only: [{:color_wrap, 3}]
 
@@ -21,7 +21,7 @@ defmodule Tapex.Diagnostic do
   end
 
   def format_diagnostic(%TestCase{state: {:failed, failures}}=case, number, color) do
-    format_test_case_failure(case, failures, number, :infinity, &formatter(&1, &2, color))
+    format_test_all_failure(case, failures, number, :infinity, &formatter(&1, &2, color))
     |> diagnosticify()
   end
 
